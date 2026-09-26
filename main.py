@@ -1,10 +1,11 @@
+import asteroid
 import asteroidfield
-import pygame
+import pygame, sys
 from asteroidfield import AsteroidField
 from constants import *
 from player import *
 from asteroid import *
-from logger import log_state
+from logger import log_state, log_event
 
 def main():
     updatable = pygame.sprite.Group()
@@ -34,6 +35,13 @@ def main():
 
         screen.fill("black")
         updatable.update(dt)
+
+        for circle in asteroids:
+            if player.collides_with(circle):
+                log_event("player_hit")
+                print("Game over!")
+                sys.exit()
+
 
         for item in drawable:
             item.draw(screen)
