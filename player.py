@@ -1,7 +1,8 @@
+import pygame
 from typing import override
-
-from circleshape import *
-from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_VELOCITY, PLAYER_SPEED
+from circleshape import CircleShape
+from constants import *
+from shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x, y,):
@@ -16,6 +17,10 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
+
+    def shoot(self):
+        shot = Shot(self.position.x, self.position.y)
+        shot.velocity = (pygame.Vector2(0, 1).rotate(self.rotation)) * PLAYER_SHOOT_SPEED
 
     @override
     def draw(self, screen: pygame.Surface) -> None:
@@ -36,6 +41,8 @@ class Player(CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
 
 
     def move(self, dt):
