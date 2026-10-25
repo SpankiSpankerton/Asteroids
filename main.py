@@ -45,6 +45,12 @@ def main():
                 print("Game over!")
                 sys.exit()
 
+        for circle in asteroids:
+            for shot in shots:
+                if shot.collides_with(circle):
+                    log_event("asteroid_shot")
+                    shot.kill()
+                    circle.split()
 
         for item in drawable:
             item.draw(screen)
